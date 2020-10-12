@@ -6,15 +6,10 @@
  */
 function getConnection() : object 
 {
-    $bdHost = 'localhost';
-    $bdLogin = 'root';
-    $bdPassword = 'root';
-    $bdName = 'prod';
-    
     static $bd;
 
     if (empty($bd)) {
-        $bd = mysqli_connect($bdHost, $bdLogin, $bdPassword, $bdName);
+        $bd = mysqli_connect(BD_HOST, BD_LOGIN, BD_PASSWORD, BD_NAME);
         
         if (!$bd) {
             echo mysqli_connect_error();
@@ -82,10 +77,10 @@ function getProducts() : array
                        
         $id = mysqli_real_escape_string(getConnection(), $id);
 
-        $result = mysqli_query(getConnection(), "
-            SELECT `p`.* 
+        $result = mysqli_query(getConnection(), "SELECT `p`.* 
             FROM `products` AS `p`, `products_categories` AS `pc`
-            WHERE `p`.`id` = `pc`.`products_id` AND `pc`.`categories_id` = '$id' AND `p`.`active` = 1        
+            WHERE `p`.`id` = `pc`.`products_id` AND `pc`.`categories_id` = '$id' AND `p`.`active` = 1
+            ORDER BY `p`.`id` DESC       
         ");
                 
         $products = mysqli_fetch_all($result, MYSQLI_ASSOC);
@@ -93,7 +88,7 @@ function getProducts() : array
     
     /* не сохранен список продуктов и не выбрана категория */
     if (!isset($_SESSION['products']) && !isset($_GET['category'])) {
-        $result = mysqli_query(getConnection(), "SELECT * FROM `products` WHERE `active` = 1");
+        $result = mysqli_query(getConnection(), "SELECT * FROM `products` WHERE `active` = 1 ORDER BY `id` DESC");
         
         $products = mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
@@ -101,10 +96,9 @@ function getProducts() : array
     if (!empty($products)) {
         foreach ($products as $key => $product) {
             $id = $product['id'];
-            $result = mysqli_query(getConnection(), "
-                SELECT `c`.* 
+            $result = mysqli_query(getConnection(), "SELECT `c`.* 
                 FROM `categories` AS `c`, `products_categories`
-                WHERE `products_id` = '$id' AND `categories_id` = `id`    
+                WHERE `products_id` = '$id' AND `categories_id` = `id`   
             ");
             
             $products[$key]['categories'] = mysqli_fetch_all($result, MYSQLI_ASSOC);
@@ -122,9 +116,7 @@ function getProducts() : array
  */
 function getCategories() : array
 {
-    $result = mysqli_query(getConnection(), "
-        SELECT * FROM `categories`
-    ");
+    $result = mysqli_query(getConnection(), "SELECT * FROM `categories`");
 
     $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
@@ -161,22 +153,19 @@ function isAddProduct() {
 }
 
 /**
- * Функция сохраняет изображение товара на сервер
- * @param int $sizeFilter максимльный размер сохраняемого файла
- * @param array $typeFilter тип файлов разрешенных для сохранения 
+ * Функция сохраняет изображение товара на сервер 
  */
-
-function isLoadImgProduct($sizeFilter, $typeFilter) {
+function isLoadImgProduct() {
     if (!empty($_FILES['photo']['name'])) {        
-        if ($_FILES['photo']['size'] <= $sizeFilter && in_array(mime_content_type($_FILES['photo']['tmp_name']), $typeFilter)) {
+        if ($_FILES['photo']['size'] <= SIZE_FILE && in_array(mime_content_type($_FILES['photo']['tmp_name']), TYPE_FILE)) {
             move_uploaded_file($_FILES['photo']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . '/img/products/' . basename($_FILES['photo']['name']));
         }
     }
 }
 
 /**
- * Функция изменяет товар в БД 
- */
+* Функция изменяет товар в БД 
+*/
 function isChangeProduct() {
     $id = mysqli_real_escape_string(getConnection(), $_POST['id']);
     $name = mysqli_real_escape_string(getConnection(), $_POST['name']);
@@ -249,9 +238,7 @@ function isAddOrder(array $deliveryPrice) {
  */
 function getOrders(): array
 {
-    $result = mysqli_query(getConnection(), "
-        SELECT * FROM `orders`
-    ");
+    $result = mysqli_query(getConnection(), "SELECT * FROM `orders`");
 
     $orders = mysqli_fetch_all($result, MYSQLI_ASSOC);
 

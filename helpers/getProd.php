@@ -19,12 +19,14 @@ if (!empty($_GET['order'])) {
     $_SESSION['sort']['order'] = $_GET['order'];
 }
 
-$flag = isset($_SESSION['sort']['flag']) ? $_SESSION['sort']['flag'] : 'price';
-$flagCol  = array_column($products, $flag);
+if (isset($_SESSION['sort'])) {
+    $flag = isset($_SESSION['sort']['flag']) ? $_SESSION['sort']['flag'] : 'id';
+    $flagCol  = array_column($products, $flag);
 
-$order = isset($_SESSION['sort']['order']) && $_SESSION['sort']['order'] == 'SORT_DESC' ? SORT_DESC : SORT_ASC;
+    $order = isset($_SESSION['sort']['order']) && $_SESSION['sort']['order'] == 'SORT_DESC' ? SORT_DESC : SORT_ASC;
 
-array_multisort($flagCol, $order, $products);
+    array_multisort($flagCol, $order, $products);
+}
 
 /* Вывод страницы */
 $productsPage = array_slice($products, $startProductNumber, $endProductNumber - $startProductNumber);

@@ -65,7 +65,7 @@ function getTitleArrayThroughPath(array $array)
         }
     }
 
-    return 'Страница отсутствует.';
+    return '';
 }
 
 /**

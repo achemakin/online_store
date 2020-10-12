@@ -1,14 +1,5 @@
 <?php
 
-/* количество отображаемых на странице товаров */
-$numberProductsPage = 9;
-
-// тип загружаемых файлов
-$typeFilter = ['image/png', 'image/jpeg', 'image/jpg'];
-
-//максимальный размер загружаемых файлов (Mb)
-$sizeFilter = 5*1024*1024;
-
 /* Пункты основного меню */
 $userMenu = [
     [
@@ -63,12 +54,4 @@ $adminMenu = [
         'path' => '/add/',
         'namePage' => 'Добавление товара'
     ]
-];
-
-/* Стоимость доставки */
-$deliveryPrice = [
-    'standart' => 280,
-    'free' => 2000,
-    'day' => 560,
-    'Moscow' => 280
 ];

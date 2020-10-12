@@ -10,5 +10,5 @@ if (isset($_POST['name'])) {
         isAddProduct();        
     }
     
-    isLoadImgProduct($sizeFilter, $typeFilter);
+    isLoadImgProduct();
 }

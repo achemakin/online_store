@@ -6,6 +6,7 @@ session_set_cookie_params(60*20);
 
 session_start();
 
+include $_SERVER['DOCUMENT_ROOT'] . '/config.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/lib/lib.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/helpers/helper.php';
 include $_SERVER['DOCUMENT_ROOT'] . '/helpers/bd.php';

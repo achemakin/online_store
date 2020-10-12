@@ -1,11 +1,5 @@
 <ul class="page-order__list">
-    <?php
-    
-    /* Сортировка заказов по признаку выполнены или не выполнены */
-    $statusCol  = array_column($var, 'status');
-    array_multisort($statusCol, SORT_ASC, $var);
-
-    /* Вывод списка заказов на страницу */
+    <?php    
     foreach ($var as $order): ?>
 
     <li class="order-item page-order__item">

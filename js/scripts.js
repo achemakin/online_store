@@ -253,7 +253,8 @@ if (pageOrderList) {
                 if (response.ok) {
                    status.textContent = 'Выполнено';
                    status.classList.toggle('order-item__info--no');
-                   status.classList.toggle('order-item__info--yes'); 
+                   status.classList.toggle('order-item__info--yes');
+                   document.location.href = "/orders/"; 
                 } else {
                     alert("Ошибка HTTP: " + response.status);
                 }
@@ -264,6 +265,7 @@ if (pageOrderList) {
                     status.textContent = 'Не выполнено';
                     status.classList.toggle('order-item__info--no');
                     status.classList.toggle('order-item__info--yes');
+                    document.location.href = "/orders/";
                 } else {
                     alert("Ошибка HTTP: " + response.status);
                 }  

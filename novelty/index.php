@@ -28,16 +28,16 @@ $productsList = productsFilter($productsList);
 $categoriesList = getCategories();
 
 /* количество страниц (кнопок пагинации) */
-$shopPaginator = ceil(count($productsList) / $numberProductsPage);
+$shopPaginator = ceil(count($productsList) / NUM_PROD_PAGE);
 
 /* номер товара с которого начинается текущая страница  */
-$startProductNumber = getPageNumber() <= $shopPaginator ? getPageNumber() * $numberProductsPage : 0;
+$startProductNumber = getPageNumber() <= $shopPaginator ? getPageNumber() * NUM_PROD_PAGE : 0;
 
 $_SESSION['startProductNumber'] = $startProductNumber;
 
 /* номер товара на котором заканчивается текущая страница  */
-if (intdiv(count($productsList)-$startProductNumber, $numberProductsPage) != 0) {
-    $endProductNumber = $startProductNumber + $numberProductsPage;
+if (intdiv(count($productsList)-$startProductNumber, NUM_PROD_PAGE) != 0) {
+    $endProductNumber = $startProductNumber + NUM_PROD_PAGE;
 } else {
     $endProductNumber = count($productsList);
 }
@@ -108,11 +108,12 @@ $_SESSION['endProductNumber'] = $endProductNumber;
                 </div>
 
                 <fieldset class="custom-form__group">
-                    <input type="hidden" name="new" value="on">
+                    <input type="checkbox" name="new" id="new" class="custom-form__checkbox" checked>
+                    <label for="new" class="custom-form__checkbox-label custom-form__info" style="display: block;" >Новинка</label>
                     
                     <input type="checkbox" name="sale" id="sale" class="custom-form__checkbox" <?= isset($_GET['sale']) ? 'checked' : ''?>>
                     <label for="sale" class="custom-form__checkbox-label custom-form__info" style="display: block;">Распродажа</label>
-                </fieldset>
+                </fieldset>                
 
                 <button class="button" type="submit" style="width: 100%">Применить</button>
             </form>
