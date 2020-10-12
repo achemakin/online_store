@@ -22,16 +22,16 @@ $productsList = productsFilter($productsList);
 $categoriesList = getCategories();
 
 /* количество страниц (кнопок пагинации) */
-$shopPaginator = ceil(count($productsList) / $numberProductsPage);
+$shopPaginator = ceil(count($productsList) / NUM_PROD_PAGE);
 
 /* номер товара с которого начинается текущая страница  */
-$startProductNumber = getPageNumber() <= $shopPaginator ? getPageNumber() * $numberProductsPage : 0;
+$startProductNumber = getPageNumber() <= $shopPaginator ? getPageNumber() * NUM_PROD_PAGE : 0;
 
 $_SESSION['startProductNumber'] = $startProductNumber;
 
 /* номер товара на котором заканчивается текущая страница  */
-if (intdiv(count($productsList)-$startProductNumber, $numberProductsPage) != 0) {
-    $endProductNumber = $startProductNumber + $numberProductsPage;
+if (intdiv(count($productsList)-$startProductNumber, NUM_PROD_PAGE) != 0) {
+    $endProductNumber = $startProductNumber + NUM_PROD_PAGE;
 } else {
     $endProductNumber = count($productsList);
 }
